@@ -8,33 +8,53 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 
 function AddExpense({ budgetId, user, refreshData }) {
-  const [name, setName] = useState();
-  const [amount, setAmount] = useState();
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+
   /**
    * Used to Add New Expense
    */
   const addNewExpense = async () => {
     setLoading(true);
-    const result = await db
-      .insert(Expenses)
-      .values({
-        name: name,
-        amount: amount,
-        budgetId: budgetId,
-        createdAt: moment().format("DD/MM/yyy"),
-      })
-      .returning({ insertedId: Budgets.id });
 
-    setAmount("");
-    setName("");
-    if (result) {
+    // Validate inputs
+    if (!name.trim()) {
+      toast.error("Expense name is required.");
       setLoading(false);
-      refreshData();
-      toast("New Expense Added!");
+      return;
     }
-    setLoading(false);
+    if (isNaN(amount) || parseFloat(amount) <= 0) {
+      toast.error("Expense amount must be a positive number.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await db
+        .insert(Expenses)
+        .values({
+          name: name.trim(),
+          amount: parseFloat(amount),
+          budgetId: budgetId,
+          createdAt: moment().format("YYYY-MM-DD"),
+        })
+        .returning({ insertedId: Budgets.id });
+
+      if (result) {
+        setName("");
+        setAmount("");
+        refreshData();
+        toast.success("New Expense Added!");
+      }
+    } catch (error) {
+      console.error("Error adding expense:", error);
+      toast.error("Failed to add expense. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="border p-5 rounded-2xl">
       <h2 className="font-bold text-lg">Add Expense</h2>
@@ -56,7 +76,7 @@ function AddExpense({ budgetId, user, refreshData }) {
       </div>
       <Button
         disabled={!(name && amount) || loading}
-        onClick={() => addNewExpense()}
+        onClick={addNewExpense}
         className="mt-3 w-full rounded-full"
       >
         {loading ? <Loader className="animate-spin" /> : "Add New Expense"}

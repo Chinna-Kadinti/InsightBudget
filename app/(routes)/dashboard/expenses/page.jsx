@@ -5,6 +5,9 @@ import { desc, eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react'
 import ExpenseListTable from './_components/ExpenseListTable';
 import { useUser } from '@clerk/nextjs';
+import { Button } from '@/components/ui/button';
+import { Link } from 'lucide-react';
+
 
 function ExpensesScreen() {
 
@@ -37,6 +40,10 @@ function ExpensesScreen() {
         <ExpenseListTable refreshData={()=>getAllExpenses()}
         expensesList={expensesList}
         />
+        <div className='pt-10'>
+         <Button><a href='/dashboard/expenses/add'>Add expenses</a></Button>
+        </div>
+        
     </div>
   )
 }

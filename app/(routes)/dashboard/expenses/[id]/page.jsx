@@ -8,7 +8,7 @@ import BudgetItem from "../../budgets/_components/BudgetItem";
 import AddExpense from "../_components/AddExpense";
 import ExpenseListTable from "../_components/ExpenseListTable";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Pen, PenBox, Trash } from "lucide-react";
+import { ArrowLeft, PenBox, Trash } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -76,10 +76,6 @@ function ExpensesScreen({ params }) {
       .returning();
 
     if (deleteExpenseResult) {
-      const result = await db
-        .delete(Budgets)
-        .where(eq(Budgets.id, params.id))
-        .returning();
     }
     toast("Budget Deleted !");
     route.replace("/dashboard/budgets");

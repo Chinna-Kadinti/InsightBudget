@@ -3,8 +3,7 @@ export default {
   schema: "./utils/schema.jsx",
   out: "./drizzle",
   dbCredentials: {
-    url: "postgresql://finan-smart_owner:uk3aed9QZotj@ep-wispy-breeze-a5iadk8t.us-east-2.aws.neon.tech/finan-smart?sslmode=require",
-    connectionString:
-      "postgresql://finan-smart_owner:uk3aed9QZotj@ep-wispy-breeze-a5iadk8t.us-east-2.aws.neon.tech/finan-smart?sslmode=require",
+    url: "postgresql://FinanceSmart_owner:sczrT9mfaI6p@ep-quiet-hill-a896k05j.eastus2.azure.neon.tech/FinanceSmart?sslmode=require",
+    connectionString: "postgresql://FinanceSmart_owner:sczrT9mfaI6p@ep-quiet-hill-a896k05j.eastus2.azure.neon.tech/FinanceSmart?sslmode=require"
   },
 };
